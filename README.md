@@ -1,3 +1,7 @@
+# EXPO
+
+expo init igniteteams
+
 # react-native-rocketseat
 
 export PATH=$PATH:~/Documents/android-studio/bin
@@ -8,4 +12,4 @@ alias mobile="emulator -avd Pixel_4_API_31"
 
 1. studio.sh
 2. npm start
-3. npm run android
+3. npm run android\
