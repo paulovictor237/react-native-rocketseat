@@ -1,3 +1,4 @@
+import { Loading } from "@components/Loading";
 import {
   Roboto_400Regular,
   Roboto_700Bold,
@@ -5,15 +6,20 @@ import {
 } from "@expo-google-fonts/roboto";
 import { Groups } from "@screens/Groups";
 import React from "react";
-import { ActivityIndicator, View } from "react-native";
+import { StatusBar } from "react-native";
 
 const App = () => {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
-  if (!fontsLoaded) return <ActivityIndicator />;
+  if (!fontsLoaded) return <Loading />;
   return (
-    <View className="flex-1">
+    <>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <Groups />
-    </View>
+    </>
   );
 };
 
