@@ -9,7 +9,8 @@ module.exports = {
   ],
   theme: {
     fontFamily: {
-      roboto: ["Roboto_400Regular", "Roboto_700Bold"],
+      roboto: ["Roboto_400Regular"],
+      "roboto-bold": ["Roboto_700Bold"],
     },
     fontSize: {
       sm: 14,
