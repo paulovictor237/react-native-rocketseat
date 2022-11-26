@@ -3,9 +3,10 @@ import { GroupCard } from "@components/GroupCard";
 import { Header } from "@components/Header";
 import { HighLight } from "@components/Highlight";
 import { ListEmpty } from "@components/ListEmpty";
-import { StatusBar } from "expo-status-bar";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const Groups = () => {
   const [groups, setGroups] = useState<string[]>([
@@ -13,9 +14,13 @@ export const Groups = () => {
     // "frango",
     // "amigos",
   ]);
+  const navigation = useNavigation();
+  const handleNewGroup = () => {
+    navigation.navigate("new");
+  };
 
   return (
-    <View className="flex-1 p-[24px] bg-gray-600">
+    <SafeAreaView className="flex-1 p-[24px] bg-gray-600">
       <Header />
       <HighLight title="Turmas" subtitle="jogue com a sua turma" />
 
@@ -29,7 +34,7 @@ export const Groups = () => {
         )}
         showsVerticalScrollIndicator={false}
       />
-      <Button title={"Criar nova Turma"} />
-    </View>
+      <Button title={"Criar nova Turma"} onPress={handleNewGroup} />
+    </SafeAreaView>
   );
 };

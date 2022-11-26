@@ -2,14 +2,22 @@ import { Button } from "@components/Button";
 import { Header } from "@components/Header";
 import { HighLight } from "@components/Highlight";
 import { Imput } from "@components/Imput";
+import { useNavigation } from "@react-navigation/native";
 import { colors } from "@theme/styles/theme";
 import { UsersThree } from "phosphor-react-native";
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const NewGroup = () => {
+  const [group, setGroup] = useState("");
+
+  const navigation = useNavigation();
+  const handleNew = () => {
+    navigation.navigate("players", { group });
+  };
   return (
-    <View className="flex-1 bg-gray-600 p-[24px]">
+    <SafeAreaView className="flex-1 bg-gray-600 p-[24px]">
       <Header showBackButton />
 
       <View className="flex-1 justify-center">
@@ -23,9 +31,9 @@ export const NewGroup = () => {
           title="Nova Turma"
           subtitle="Crie a turma para adicionar as pessoas"
         />
-        <Imput placeholder="Nome da turma" />
-        <Button title="Criar" style={{ marginTop: 20 }} />
+        <Imput placeholder="Nome da turma" onChangeText={setGroup} />
+        <Button title="Criar" style={{ marginTop: 20 }} onPress={handleNew} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 };

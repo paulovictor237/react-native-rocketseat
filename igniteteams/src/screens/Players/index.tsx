@@ -6,20 +6,21 @@ import { HighLight } from "@components/Highlight";
 import { Imput } from "@components/Imput";
 import { ListEmpty } from "@components/ListEmpty";
 import { PlayerCard } from "@components/PlayerCard";
+import { useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { FlatList, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Players = () => {
   const [team, setTeam] = useState("Time A");
   const [players, setPlayers] = useState([]);
+  const route = useRoute();
+  const { group } = route.params as { group: string };
 
   return (
-    <View className="flex-1 bg-gray-600 p-[24px]">
+    <SafeAreaView className="flex-1 bg-gray-600 p-[24px]">
       <Header showBackButton />
-      <HighLight
-        title="Nome da turma"
-        subtitle="adicione a galerae separe os times "
-      />
+      <HighLight title={group} subtitle="adicione a galerae separe os times " />
       <View className="w-full bg-gray-700 flex-row justify-between items-center rounded-sm">
         <Imput placeholder="nome da pessoa" autoCorrect={false} />
         <ButtonIcon icon="add" />
@@ -58,7 +59,7 @@ const Players = () => {
       />
 
       <Button title="Remover Turma" ButtonTypeStyleProps="SECONDARY" />
-    </View>
+    </SafeAreaView>
   );
 };
 
