@@ -12,7 +12,7 @@ export const Button = ({
   ButtonTypeStyleProps = "PRIMARY",
   ...rest
 }: Props) => {
-  const TypeStyle: { [key in TypeStyle]: string } = {
+  const ButtonStyle: { [key in TypeStyle]: string } = {
     PRIMARY: "bg-green-700",
     SECONDARY: "bg-red-dark",
   };
@@ -20,7 +20,7 @@ export const Button = ({
   return (
     <TouchableOpacity
       className={`flex-1 min-h-[56] max-h-[56] rounded-sm justify-center items-center 
-        ${TypeStyle[ButtonTypeStyleProps]}
+        ${ButtonStyle[ButtonTypeStyleProps]}
       `}
       {...rest}
     >

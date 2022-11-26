@@ -5,6 +5,8 @@ import {
   useFonts,
 } from "@expo-google-fonts/roboto";
 import { Groups } from "@screens/Groups";
+import { NewGroup } from "@screens/NewGroup";
+import Players from "@screens/Players";
 import React from "react";
 import { StatusBar } from "react-native";
 
@@ -19,6 +21,8 @@ const App = () => {
         translucent
       />
       <Groups />
+      {/* <NewGroup /> */}
+      {/* <Players /> */}
     </>
   );
 };
