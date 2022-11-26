@@ -3,15 +3,15 @@ import { CacheKey } from "@storage/StorageConfig";
 import { AppError } from "@utils/AppError";
 import { groupsGetAll } from "./groupsGetAll";
 
-export const groupCreate = async (newGroupName: string) => {
+export const groupRemoveByName = async (groupDeleted: string) => {
   try {
     const storedGroups = await groupsGetAll();
-    const groupAlreadyExists = storedGroups.includes(newGroupName);
-    if (groupAlreadyExists) {
-      throw new AppError("Já existe um turma cadastrado com esse nome.");
-    }
-    const storage = JSON.stringify([...storedGroups, newGroupName]);
+    const groups = storedGroups.filter((p) => p !== groupDeleted);
+    const storage = JSON.stringify(groups);
     await AsyncStorage.setItem(CacheKey.GROUP_COLLECTION, storage);
+    await AsyncStorage.removeItem(
+      `${CacheKey.PLAYER_COLLECTION}-${groupDeleted}`
+    );
   } catch (error) {
     throw error;
   }

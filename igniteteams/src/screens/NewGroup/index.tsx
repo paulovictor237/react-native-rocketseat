@@ -1,7 +1,7 @@
 import { Button } from "@components/Button";
 import { Header } from "@components/Header";
 import { HighLight } from "@components/Highlight";
-import { Imput } from "@components/Imput";
+import { Input } from "@components/Imput";
 import { useNavigation } from "@react-navigation/native";
 import { groupCreate } from "@storage/group/groupCreate";
 import { colors } from "@theme/styles/theme";
@@ -19,15 +19,15 @@ export const NewGroup = () => {
     setGroup((p) => p.trim());
     try {
       if (group.trim().length === 0) {
-        return Alert.alert("Novo Grupo", "Informe o nome da turma");
+        return Alert.alert("Novo turma", "Informe o nome da turma");
       }
       await groupCreate(group);
       navigation.navigate("players", { group });
     } catch (error) {
       if (error instanceof AppError) {
-        Alert.alert("Novo Grupo", error.message);
+        Alert.alert("Novo turma", error.message);
       } else {
-        Alert.alert("Novo Grupo", "Não foi possivel criar um novo grupo");
+        Alert.alert("Novo turma", "Não foi possivel criar um novo turma");
         console.error(error);
       }
     }
@@ -47,7 +47,7 @@ export const NewGroup = () => {
           title="Nova Turma"
           subtitle="Crie a turma para adicionar as pessoas"
         />
-        <Imput
+        <Input
           placeholder="Nome da turma"
           onChangeText={setGroup}
           value={group}

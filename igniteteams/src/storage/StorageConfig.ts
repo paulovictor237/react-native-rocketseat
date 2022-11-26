@@ -1,3 +1,4 @@
-const GROUP_COLLECTION = "@ignite-teams:groups";
-
-export { GROUP_COLLECTION };
+export enum CacheKey {
+  GROUP_COLLECTION = "@ignite-teams:groups",
+  PLAYER_COLLECTION = "@ignite-teams:players",
+}
