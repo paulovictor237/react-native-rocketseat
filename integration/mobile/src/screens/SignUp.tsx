@@ -3,10 +3,10 @@ import LogoSvg from "@assets/logo.svg";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useAuth } from "@hooks/useAuth";
 import { useNavigation } from "@react-navigation/native";
 import { api } from "@services/api";
 import { AppError } from "@utils/AppError";
-import axios from "axios";
 import {
   Center,
   Heading,
@@ -16,8 +16,8 @@ import {
   useToast,
   VStack,
 } from "native-base";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Alert } from "react-native";
 import * as yup from "yup";
 
 type FormDataProps = {
@@ -41,6 +41,8 @@ const signUpSchema = yup.object({
 });
 
 export function SignUp() {
+  const { signIn } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -57,27 +59,23 @@ export function SignUp() {
   }
 
   async function handleSignUp({ name, email, password }: FormDataProps) {
-    // ifconfig
-    // const response = await fetch("http://172.30.0.1:3333/", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ name, email, password }),
-    // });
     try {
-      const response = await api.post("/users", { name, email, password });
+      setIsLoading(true);
+      await api.post("/users", { name, email, password });
+      await signIn(email, password);
     } catch (error) {
       // if (axios.isAxiosError(error)) {
       // const { message } = error.response?.data;
-      if (error instanceof AppError) {
-        toast.show({
-          title: error.message,
-          placement: "top",
-          bgColor: "red.500",
-        });
-      }
+      const isAppError = error instanceof AppError;
+      const message = isAppError
+        ? error.message
+        : "Não foi possivel fazer o login";
+      setIsLoading(false);
+      toast.show({
+        title: message,
+        placement: "top",
+        bgColor: "red.500",
+      });
     }
   }
 
@@ -169,6 +167,7 @@ export function SignUp() {
           <Button
             title="Criar e acessar"
             onPress={handleSubmit(handleSignUp)}
+            isLoading={isLoading}
           />
         </Center>
 
