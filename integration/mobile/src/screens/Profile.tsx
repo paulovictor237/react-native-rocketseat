@@ -1,3 +1,4 @@
+import UserPhotoDefault from "@assets/userPhotoDefault.png";
 import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { ScreenHeader } from "@components/ScreenHeader";
@@ -100,7 +101,34 @@ export function Profile() {
           });
         }
 
-        setUserPhoto(photoSelected.uri);
+        const fileExtension = await photoSelected.uri.split(".").pop();
+        const photoFile = {
+          name: `${user.name}.${fileExtension}`.toLocaleLowerCase(),
+          uri: photoSelected.uri,
+          type: `${photoSelected.type}/${fileExtension}`,
+        } as any;
+        const userPhotoUploadForm = new FormData();
+        userPhotoUploadForm.append("avatar", photoFile);
+
+        const avatarUpdatedResponse = await api.patch(
+          "/users/avatar",
+          userPhotoUploadForm,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const userUpdated = user;
+        userUpdated.avatar = avatarUpdatedResponse.data.avatar;
+        updateUserProfile(userUpdated);
+
+        toast.show({
+          title: "Foto tualizada!",
+          placement: "top",
+          bgColor: "green.500",
+        });
       }
     } catch (error) {
       console.log(error);
@@ -158,7 +186,11 @@ export function Profile() {
             />
           ) : (
             <UserPhoto
-              source={{ uri: userPhoto }}
+              source={
+                user.avatar
+                  ? { uri: `${api.defaults.baseURL}/avatar/${user.avatar}` }
+                  : UserPhotoDefault
+              }
               alt="Foto do usuário"
               size={PHOTO_SIZE}
             />
