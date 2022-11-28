@@ -1,0 +1,11 @@
+export type ExerciseDTO = {
+  id: number;
+  name: string;
+  series: number;
+  repetitions: number;
+  group: string;
+  demo: string;
+  thumb: string;
+  updated_at: string;
+  created_at: string;
+};
