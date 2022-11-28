@@ -19,6 +19,7 @@ export type AuthContextDataProps = {
   signOut: () => Promise<void>;
   updateUserProfile: (userUpdated: UserDTO) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
+  refreshedToken: string;
 };
 
 export const AuthContext = createContext<AuthContextDataProps>(
@@ -27,6 +28,7 @@ export const AuthContext = createContext<AuthContextDataProps>(
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserDTO>({} as UserDTO);
+  const [refreshedToken, setRefreshedToken] = useState("");
   const [isLoadingUserStorage, setIsLoadingUserStorage] = useState(true);
 
   const userAndTokenUpdate = (user: UserDTO, token: string) => {
@@ -95,13 +97,34 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const refreshTokenUpdated = (newToken: string) => {
+    setRefreshedToken(newToken);
+  };
+
   useEffect(() => {
     loadUserData();
   }, []);
 
+  useEffect(() => {
+    const subscrible = api.registerInterceptTokenManager({
+      signOut,
+      refreshTokenUpdated,
+    });
+    return () => {
+      subscrible();
+    };
+  }, [signOut]);
+
   return (
     <AuthContext.Provider
-      value={{ signOut, user, signIn, isLoadingUserStorage, updateUserProfile }}
+      value={{
+        signOut,
+        user,
+        signIn,
+        isLoadingUserStorage,
+        updateUserProfile,
+        refreshedToken,
+      }}
     >
       {children}
     </AuthContext.Provider>
